@@ -22,7 +22,7 @@ tasks = [
 ]
 
 class TaskCreate(BaseModel):
-    title: str
+    title: str | None = None
 
 
 @app.get("/")
@@ -54,8 +54,18 @@ def get_task(id: int):
 
     raise HTTPException(status_code=404, detail=f"Task {id} not found")
 
+class TaskCreate(BaseModel):
+    title: str | None = None
+
+
 @app.post("/tasks", status_code=201)
 def create_task(task: TaskCreate):
+    if task.title is None or not task.title.strip():
+        raise HTTPException(
+            status_code=400,
+            detail="Title is required and cannot be empty"
+        )
+
     new_id = max(existing_task["id"] for existing_task in tasks) + 1 if tasks else 1
 
     new_task = {
