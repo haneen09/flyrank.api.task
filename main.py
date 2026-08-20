@@ -104,17 +104,24 @@ def create_task(task: TaskCreate):
             detail="Title is required and cannot be empty"
         )
 
-    new_id = max(existing_task["id"] for existing_task in tasks) + 1 if tasks else 1
+    connection = get_connection()
+    cursor = connection.cursor()
 
-    new_task = {
+    cursor.execute(
+        "INSERT INTO tasks (title, done) VALUES (?, ?)",
+        (task.title, 0)
+    )
+
+    new_id = cursor.lastrowid
+
+    connection.commit()
+    connection.close()
+
+    return {
         "id": new_id,
         "title": task.title,
         "done": False
     }
-
-    tasks.append(new_task)
-
-    return new_task
 
 
 @app.put("/tasks/{id}", description="Updates an existing task.")
