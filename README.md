@@ -9,14 +9,15 @@ This project was created as part of the FlyRank internship task. It demonstrates
 - Update tasks
 - Delete tasks
 
-The API stores tasks in memory while the server is running.
+The API stores tasks in a SQLite database, allowing task data to persist even after the server is restarted.
 
 ---
 
 ## Features
 
 - FastAPI REST API
-- In-memory task storage
+- SQLite database storage
+- Persistent task data
 - Create, read, update, and delete tasks
 - Input validation
 - Proper HTTP status codes
@@ -29,6 +30,7 @@ The API stores tasks in memory while the server is running.
 - Python 3.13
 - FastAPI
 - Uvicorn
+- SQLite
 
 ---
 
@@ -78,6 +80,22 @@ http://127.0.0.1:8000/docs
 
 ---
 
+## Database
+
+This project uses SQLite to store task data.
+
+SQLite was chosen because it is lightweight, requires no separate database server, and stores the entire database in a single file. Task data persists after the FastAPI server is restarted.
+
+The database is stored locally in:
+
+```text
+tasks.db
+```
+
+The database and the `tasks` table are created automatically when the application starts. If the database is empty, three example tasks are added automatically.
+
+---
+
 ## API Endpoints
 
 | Method | Endpoint | Description |
@@ -104,9 +122,6 @@ curl -i http://127.0.0.1:8000/health
 
 ```text
 HTTP/1.1 200 OK
-date: Sun, 16 Aug 2026 14:23:10 GMT
-server: uvicorn
-content-length: 15
 content-type: application/json
 
 {"status":"ok"}
@@ -121,7 +136,7 @@ A task has the following structure:
 ```json
 {
   "id": 1,
-  "title": "Read a book",
+  "title": "Example task",
   "done": false
 }
 ```
@@ -221,14 +236,39 @@ All API endpoints can be tested directly through Swagger UI.
 
 ---
 
+## Database Screenshot
+
+The SQLite database was explored using DB Browser for SQLite.
+
+![SQLite Database](database.png)
+
+---
+
+## SQLite Exploration
+
+During Stage 4, I used DB Browser for SQLite to interact directly with the database.
+
+One SQL query I ran was:
+
+```sql
+SELECT * FROM tasks WHERE done = 1;
+```
+
+This query returned all tasks that were marked as completed.
+
+---
+
 ## Project Structure
 
 ```text
-flyrank-task1/
+flyrank/
 ├── main.py
+├── database.py
 ├── README.md
 ├── swagger.png
-└── venv/
+├── database.png
+├── .gitignore
+└── tasks.db (created automatically and not tracked by Git)
 ```
 
 ---
