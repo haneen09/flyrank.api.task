@@ -246,17 +246,51 @@ The SQLite database was explored using DB Browser for SQLite.
 
 ## SQLite Exploration
 
-During Stage 4, I used DB Browser for SQLite to interact directly with the database.
+During Stage 4, I used DB Browser for SQLite to interact directly with the `tasks.db` database.
 
-One SQL query I ran was:
+I ran the following SQL queries:
+
+```sql
+SELECT * FROM tasks;
+```
+
+This returned all tasks currently stored in the database.
 
 ```sql
 SELECT * FROM tasks WHERE done = 1;
 ```
 
-This query returned all tasks that were marked as completed.
+This returned all tasks marked as completed.
 
----
+```sql
+SELECT COUNT(*) FROM tasks;
+```
+
+This returned the total number of tasks in the database.
+
+I also used SQL to update and delete tasks manually. After deleting the tasks, I inserted new tasks directly into the database using SQL and verified that the changes were reflected through the API using `GET /tasks`.
+
+The tasks currently returned by the API include:
+
+```json
+[
+  {
+    "id": 7,
+    "title": "finish w3",
+    "done": false
+  },
+  {
+    "id": 8,
+    "title": "finish w3",
+    "done": false
+  },
+  {
+    "id": 9,
+    "title": "build the database",
+    "done": false
+  }
+]
+```
 
 ## Project Structure
 
