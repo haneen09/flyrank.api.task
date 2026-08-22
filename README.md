@@ -291,6 +291,19 @@ The tasks currently returned by the API include:
   }
 ]
 ```
+## Database Verification
+
+To verify that the database can be created automatically, `tasks.db` was removed and the application was started again.
+
+The application automatically recreated the database, created the `tasks` table, and added the three example tasks:
+
+- Learn SQLite
+- Build the database
+- Test the API
+
+This confirmed that a fresh database can be created automatically when the application starts.
+
+---
 
 ## Project Structure
 
