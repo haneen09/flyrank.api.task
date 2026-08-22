@@ -1,4 +1,4 @@
-# Task API
+# Task management API
 
 A simple REST API for managing tasks, built with Python and FastAPI.
 
